@@ -1,0 +1,13 @@
+{
+    "name": "singlewallet/singlewallet-php-sdk",
+    "description": "PHP singlewallet SDK",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "SingleWallet\\": "src/"
+        }
+    },
+    "require": {
+        "guzzlehttp/guzzle": "^7.0"
+    }
+}
