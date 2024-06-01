@@ -6,6 +6,7 @@ class TransactionResponse {
 
     public function __construct(
         protected string $id,
+        protected string $network,
         protected float $amount,
         protected string $txid,
         protected int $timestamp,
@@ -20,6 +21,10 @@ class TransactionResponse {
 
     public function getId(): string{
         return $this->id;
+    }
+
+    public function getNetwork(): string{
+        return $this->network;
     }
 
     public function getAmount(): float{

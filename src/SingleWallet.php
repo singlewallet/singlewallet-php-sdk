@@ -169,6 +169,7 @@ class SingleWallet {
             return array_map(function($transaction){
                 return new TransactionResponse(
                     $transaction->id,
+                    $transaction->network,
                     $transaction->amount,
                     $transaction->txid,
                     $transaction->timestamp,
@@ -200,6 +201,7 @@ class SingleWallet {
             $transaction = $response['body']->data->transaction;
             return new TransactionResponse(
                 $transaction->id,
+                $transaction->network,
                 $transaction->amount,
                 $transaction->txid,
                 $transaction->timestamp,
