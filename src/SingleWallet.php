@@ -151,7 +151,7 @@ class SingleWallet {
             $transaction = $response['body']->data->transaction;
             return new WithdrawResponse($transaction->to, $transaction->amount, $transaction->fee, $transaction->txid);
         }else{
-            throw new WithdrawException($response['body']['message']);
+            throw new WithdrawException($response['body']->message);
         }
     }
 
