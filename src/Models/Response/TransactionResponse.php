@@ -1,6 +1,6 @@
 <?php
 
-namespace SingleWallet\Models;
+namespace SingleWallet\Models\Response;
 
 class TransactionResponse {
 

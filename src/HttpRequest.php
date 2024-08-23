@@ -9,6 +9,7 @@ use SingleWallet\Exceptions\InvalidAPIKeyException;
 
 class HttpRequest {
     protected $client;
+    const VERSION = '1.1.0';
 
     public function __construct(string $endpoint,string $apiKey, $timeout=5){
         $this->client = new Client([
@@ -16,6 +17,7 @@ class HttpRequest {
             'timeout'  => $timeout,
             'headers' => [
                 'sw-key' => $apiKey,
+                'sdk-version' => self::VERSION,
                 'Content-Type' => 'application/json',
             ],
         ]);
@@ -57,6 +59,10 @@ class HttpRequest {
 
     public function post(string $path,array $params) : array {
         return $this->request('post',$path, $params);
+    }
+
+    public function delete(string $path,array $params = null) : array {
+        return $this->request('delete',$path, $params);
     }
 
 }

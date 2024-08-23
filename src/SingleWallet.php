@@ -2,16 +2,22 @@
 
 namespace SingleWallet;
 
+use SingleWallet\Exceptions\CancelInvoiceException;
+use SingleWallet\Exceptions\CreateInvoiceException;
 use SingleWallet\Exceptions\InvalidNetworkException;
+use SingleWallet\Exceptions\InvoiceNotFoundException;
 use SingleWallet\Exceptions\TransactionNotFoundException;
 use SingleWallet\Exceptions\WalletNotFoundException;
 use SingleWallet\Exceptions\WithdrawException;
-use SingleWallet\Models\AccountInformationResponse;
-use SingleWallet\Models\CreateWalletResponse;
-use SingleWallet\Models\NetworkResponse;
-use SingleWallet\Models\TransactionResponse;
-use SingleWallet\Models\WalletInformationResponse;
-use SingleWallet\Models\WithdrawResponse;
+use SingleWallet\Models\Request\Invoice;
+use SingleWallet\Models\Response\AccountInformationResponse;
+use SingleWallet\Models\Response\CreateWalletResponse;
+use SingleWallet\Models\Response\InvoiceResponse;
+use SingleWallet\Models\Response\NewInvoiceResponse;
+use SingleWallet\Models\Response\NetworkResponse;
+use SingleWallet\Models\Response\TransactionResponse;
+use SingleWallet\Models\Response\WalletInformationResponse;
+use SingleWallet\Models\Response\WithdrawResponse;
 
 class SingleWallet {
     protected $endpoint = 'https://api.singlewallet.cc/v1/';
@@ -215,6 +221,108 @@ class SingleWallet {
             );
         }else{
             throw new TransactionNotFoundException();
+        }
+    }
+
+    /**
+     * Create a new invoice
+     *
+     * @param Invoice $invoice
+     * @return NewInvoiceResponse
+     * @throws CreateInvoiceException
+     */
+    public function createInvoice(Invoice $invoice) : NewInvoiceResponse {
+        $response = $this->request->post('invoice',[
+            'order_name'=>$invoice->getOrderName(),
+            'order_number'=>$invoice->getOrderNumber(),
+            'description'=>$invoice->getDescription(),
+            'amount'=>$invoice->getAmount(),
+            'customer_email'=>$invoice->getCustomerEmail(),
+            'ttl'=>$invoice->getTtl(),
+            'payload'=>$invoice->getPayload(),
+            'callback_url'=>$invoice->getCallbackUrl(),
+            'redirect_url'=>$invoice->getRedirectUrl(),
+            'cancel_url'=>$invoice->getCancelUrl(),
+            'language'=>$invoice->getLanguage(),
+        ]);
+
+        if($response['code'] == 200){
+            $invoice = $response['body']->data->invoice;
+            return new NewInvoiceResponse($invoice->id,
+                $invoice->url,
+                $invoice->order_name,
+                $invoice->order_number,
+                $invoice->description,
+                $invoice->invoice_amount,
+                $invoice->customer_email,
+                $invoice->payload,
+                $invoice->callback_url,
+                $invoice->redirect_url,
+                $invoice->cancel_url,
+                $invoice->language,
+                $invoice->created_at,
+                $invoice->expire_at,
+                $invoice->wallets,
+            );
+        }else{
+            throw new CreateInvoiceException($response['body']->message);
+        }
+    }
+
+    /**
+     * Cancel Invoice
+     *
+     * @param string $id
+     * @return bool
+     * @throws CancelInvoiceException
+     */
+    public function cancelInvoice(string $id) : bool {
+        $response = $this->request->delete("invoice/{$id}");
+
+        if($response['code'] == 200){
+            return true;
+        }else{
+            throw new CancelInvoiceException($response['body']->message);
+        }
+    }
+
+    /**
+     * Get invoice by id
+     *
+     * @param string $id
+     * @return InvoiceResponse
+     * @throws InvoiceNotFoundException
+     */
+    public function getInvoice(string $id) : InvoiceResponse {
+        $response = $this->request->get("invoice/{$id}");
+
+        if($response['code'] == 200){
+            $invoice = $response['body']->data->invoice;
+            return new InvoiceResponse($invoice->id,
+                $invoice->url,
+                $invoice->order_name,
+                $invoice->order_number,
+                $invoice->description,
+                $invoice->invoice_amount,
+                $invoice->paid_amount,
+                $invoice->customer_email,
+                $invoice->status,
+                $invoice->exception,
+                $invoice->payload,
+                $invoice->callback_url,
+                $invoice->redirect_url,
+                $invoice->cancel_url,
+                $invoice->language,
+                $invoice->network_code,
+                $invoice->network_name,
+                $invoice->address,
+                $invoice->txid,
+                $invoice->blockchain_url,
+                $invoice->created_at,
+                $invoice->expire_at,
+            );
+        }else{
+            throw new InvoiceNotFoundException();
         }
     }
 
