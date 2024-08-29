@@ -4,12 +4,22 @@ namespace SingleWallet\Models\Response;
 
 class WithdrawResponse {
 
+    protected $to;
+    protected $amount;
+    protected $fee;
+    protected $txid;
+
     public function __construct(
-        protected string $to,
-        protected float $amount,
-        protected float $fee,
-        protected string $txid,
-    ){}
+        string $to,
+        float $amount,
+        float $fee,
+        string $txid
+    ){
+        $this->txid = $txid;
+        $this->fee = $fee;
+        $this->amount = $amount;
+        $this->to = $to;
+    }
 
     public function getTo(): string{
         return $this->to;

@@ -22,8 +22,10 @@ use SingleWallet\Models\Response\WithdrawResponse;
 class SingleWallet {
     protected $endpoint = 'https://api.singlewallet.cc/v1/';
     protected $request;
+    protected $secretKey;
 
-    public function __construct(string $apiKey, protected string $secretKey, $endpoint = null, $timeout = null){
+    public function __construct(string $apiKey, string $secretKey, $endpoint = null, $timeout = null){
+        $this->secretKey = $secretKey;
         if(!is_null($endpoint)){
             $this->endpoint = $endpoint;
         }
@@ -129,7 +131,7 @@ class SingleWallet {
                 $wallet->accumulated_balance,
                 $wallet->dust_balance,
                 $wallet->deposits,
-                $wallet->last_deposit,
+                $wallet->last_deposit
             );
 
         }else{
@@ -138,7 +140,7 @@ class SingleWallet {
     }
 
     /**
-     * Create a withdraw request, which will be executed almost immediately.
+     * Create a withdrawal request, which will be executed almost immediately.
      *
      * @param string $networkCode
      * @param string $address receiver wallet address
@@ -185,7 +187,7 @@ class SingleWallet {
                     $transaction->status,
                     $transaction->is_dust,
                     $transaction->date,
-                    $transaction->fee,
+                    $transaction->fee
                 );
             },$response['body']->data->transactions);
         }else{
@@ -217,7 +219,7 @@ class SingleWallet {
                 $transaction->status,
                 $transaction->is_dust,
                 $transaction->date,
-                $transaction->fee,
+                $transaction->fee
             );
         }else{
             throw new TransactionNotFoundException();
@@ -262,7 +264,7 @@ class SingleWallet {
                 $invoice->language,
                 $invoice->created_at,
                 $invoice->expire_at,
-                $invoice->wallets,
+                $invoice->wallets
             );
         }else{
             throw new CreateInvoiceException($response['body']->message);
@@ -319,7 +321,7 @@ class SingleWallet {
                 $invoice->txid,
                 $invoice->blockchain_url,
                 $invoice->created_at,
-                $invoice->expire_at,
+                $invoice->expire_at
             );
         }else{
             throw new InvoiceNotFoundException();

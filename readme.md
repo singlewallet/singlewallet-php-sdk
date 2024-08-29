@@ -1,4 +1,9 @@
-## installation
+## Requirements
+```
+php >=7.1
+```
+
+## Installation
 
 ```shell
 composer install singlewallet/singlewallet-php-sdk

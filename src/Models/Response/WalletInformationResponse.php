@@ -4,16 +4,34 @@ namespace SingleWallet\Models\Response;
 
 class WalletInformationResponse {
 
+    protected $id;
+    protected $label;
+    protected $address;
+    protected $network;
+    protected $accumulatedBalance;
+    protected $dustBalance;
+    protected $deposits;
+    protected $lastDeposit;
+
     public function __construct(
-        protected string $id,
-        protected string $label,
-        protected string $address,
-        protected string $network,
-        protected float $accumulatedBalance,
-        protected float $dustBalance,
-        protected int $deposits,
-        protected string $lastDeposit,
-    ){}
+        string $id,
+        string $label,
+        string $address,
+        string $network,
+        float $accumulatedBalance,
+        float $dustBalance,
+        int $deposits,
+        string $lastDeposit
+    ){
+        $this->lastDeposit = $lastDeposit;
+        $this->deposits = $deposits;
+        $this->dustBalance = $dustBalance;
+        $this->accumulatedBalance = $accumulatedBalance;
+        $this->network = $network;
+        $this->address = $address;
+        $this->label = $label;
+        $this->id = $id;
+    }
 
 
     public function getId(): string{

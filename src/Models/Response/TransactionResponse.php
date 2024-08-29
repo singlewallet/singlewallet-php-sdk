@@ -4,20 +4,46 @@ namespace SingleWallet\Models\Response;
 
 class TransactionResponse {
 
+    protected $id;
+    protected $network;
+    protected $amount;
+    protected $txid;
+    protected $timestamp;
+    protected $from;
+    protected $to;
+    protected $type;
+    protected $status;
+    protected $isDust;
+    protected $date;
+    protected $fee;
+
     public function __construct(
-        protected string $id,
-        protected string $network,
-        protected float $amount,
-        protected string $txid,
-        protected int $timestamp,
-        protected string $from,
-        protected string $to,
-        protected string $type,
-        protected string $status,
-        protected bool $isDust,
-        protected string $date,
-        protected float $fee,
-    ){}
+        string $id,
+        string $network,
+        float $amount,
+        string $txid,
+        int $timestamp,
+        string $from,
+        string $to,
+        string $type,
+        string $status,
+        bool $isDust,
+        string $date,
+        float $fee
+    ){
+        $this->fee = $fee;
+        $this->date = $date;
+        $this->isDust = $isDust;
+        $this->status = $status;
+        $this->type = $type;
+        $this->to = $to;
+        $this->from = $from;
+        $this->timestamp = $timestamp;
+        $this->txid = $txid;
+        $this->amount = $amount;
+        $this->network = $network;
+        $this->id = $id;
+    }
 
     public function getId(): string{
         return $this->id;

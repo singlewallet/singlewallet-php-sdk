@@ -3,10 +3,20 @@
 namespace SingleWallet\Models\Response;
 
 class AccountInformationResponse {
-    public function __construct(protected int $totalWallets,
-                                protected float $accumulatedBalance,
-                                protected float $dustBalance,
-                                protected float $balance){}
+    protected $totalWallets;
+    protected $accumulatedBalance;
+    protected $dustBalance;
+    protected $balance;
+
+    public function __construct(int $totalWallets,
+                                float $accumulatedBalance,
+                                float $dustBalance,
+                                float $balance){
+        $this->balance = $balance;
+        $this->dustBalance = $dustBalance;
+        $this->accumulatedBalance = $accumulatedBalance;
+        $this->totalWallets = $totalWallets;
+    }
 
     public function getTotalWallets(): int{
         return $this->totalWallets;

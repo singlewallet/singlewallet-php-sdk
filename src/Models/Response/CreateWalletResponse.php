@@ -3,12 +3,24 @@
 namespace SingleWallet\Models\Response;
 
 class CreateWalletResponse {
+    protected $id;
+    protected $label;
+    protected $address;
+    protected $network;
+    protected $cost;
+
     public function __construct(
-        protected string $id,
-        protected string $label,
-        protected string $address,
-        protected string $network,
-        protected float $cost){}
+        string $id,
+        string $label,
+        string $address,
+        string $network,
+        float $cost){
+        $this->cost = $cost;
+        $this->network = $network;
+        $this->address = $address;
+        $this->label = $label;
+        $this->id = $id;
+    }
 
     public function getId(): string{
         return $this->id;

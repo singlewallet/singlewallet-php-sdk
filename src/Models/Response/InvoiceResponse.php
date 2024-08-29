@@ -5,28 +5,74 @@ namespace SingleWallet\Models\Response;
 class InvoiceResponse {
 
 
-    public function __construct(protected $id,
-                                protected $url,
-                                protected $orderName,
-                                protected $orderNumber,
-                                protected $description,
-                                protected $invoiceAmount,
-                                protected $paidAmount,
-                                protected $customerEmail,
-                                protected $status,
-                                protected $exception,
-                                protected $payload,
-                                protected $callbackUrl,
-                                protected $redirectUrl,
-                                protected $cancelUrl,
-                                protected $language,
-                                protected $networkCode,
-                                protected $networkName,
-                                protected $address,
-                                protected $txid,
-                                protected $blockchainUrl,
-                                protected $createdAt,
-                                protected $expireAt){}
+    protected $id;
+    protected $url;
+    protected $orderName;
+    protected $orderNumber;
+    protected $description;
+    protected $invoiceAmount;
+    protected $paidAmount;
+    protected $customerEmail;
+    protected $status;
+    protected $exception;
+    protected $payload;
+    protected $callbackUrl;
+    protected $redirectUrl;
+    protected $cancelUrl;
+    protected $language;
+    protected $networkCode;
+    protected $networkName;
+    protected $address;
+    protected $txid;
+    protected $blockchainUrl;
+    protected $createdAt;
+    protected $expireAt;
+
+    public function __construct($id,
+                                $url,
+                                $orderName,
+                                $orderNumber,
+                                $description,
+                                $invoiceAmount,
+                                $paidAmount,
+                                $customerEmail,
+                                $status,
+                                $exception,
+                                $payload,
+                                $callbackUrl,
+                                $redirectUrl,
+                                $cancelUrl,
+                                $language,
+                                $networkCode,
+                                $networkName,
+                                $address,
+                                $txid,
+                                $blockchainUrl,
+                                $createdAt,
+                                $expireAt){
+        $this->expireAt = $expireAt;
+        $this->createdAt = $createdAt;
+        $this->blockchainUrl = $blockchainUrl;
+        $this->txid = $txid;
+        $this->address = $address;
+        $this->networkName = $networkName;
+        $this->networkCode = $networkCode;
+        $this->language = $language;
+        $this->cancelUrl = $cancelUrl;
+        $this->redirectUrl = $redirectUrl;
+        $this->callbackUrl = $callbackUrl;
+        $this->payload = $payload;
+        $this->exception = $exception;
+        $this->status = $status;
+        $this->customerEmail = $customerEmail;
+        $this->paidAmount = $paidAmount;
+        $this->invoiceAmount = $invoiceAmount;
+        $this->description = $description;
+        $this->orderNumber = $orderNumber;
+        $this->orderName = $orderName;
+        $this->url = $url;
+        $this->id = $id;
+    }
 
     /**
      * @return mixed

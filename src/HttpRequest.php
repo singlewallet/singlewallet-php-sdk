@@ -3,24 +3,25 @@ declare(strict_types=1);
 
 namespace SingleWallet;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 use SingleWallet\Exceptions\InvalidAPIKeyException;
 
 class HttpRequest {
-    protected $client;
-    const VERSION = '1.1.0';
+    const VERSION = '1.2.0';
+
+    protected $headers;
+    protected $timeout = 5;
+
+    protected $endpoint;
 
     public function __construct(string $endpoint,string $apiKey, $timeout=5){
-        $this->client = new Client([
-            'base_uri' => $endpoint,
-            'timeout'  => $timeout,
-            'headers' => [
-                'sw-key' => $apiKey,
-                'sdk-version' => self::VERSION,
-                'Content-Type' => 'application/json',
-            ],
-        ]);
+        $this->headers = [
+            "sw-key: ".$apiKey,
+            "sdk-version: ".self::VERSION,
+        ];
+
+        $this->timeout = $timeout;
+
+        $this->endpoint = $endpoint;
     }
 
     public function request($method, $path, $params = null){
@@ -29,40 +30,60 @@ class HttpRequest {
             'body'=>null,
         ];
 
-        $data = [];
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $this->endpoint.$path);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_TIMEOUT, $this->timeout);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $this->headers);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 
-        try {
-            if(!is_null($params)){
-                $data = [
-                    'form_params'=>$params,
-                ];
-            }
-
-            $response = $this->client->request($method, $path, $data);
-            $output['code'] = $response->getStatusCode();
-            $output['body'] = json_decode((string)$response->getBody());
-        } catch (ClientException $e) {
-            $output['code'] = $e->getResponse()->getStatusCode();
-            if($output['code'] == 401){
-                throw new InvalidAPIKeyException();
-            }
-
-            $output['body'] = json_decode((string)$e->getResponse()->getBody());
+        switch ($method) {
+            case "GET":
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
+                break;
+            case "POST":
+                curl_setopt($curl, CURLOPT_POST, 1);
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+                curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($params));
+                break;
+            case "DELETE":
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+                if(!is_null($params)){
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($params));
+                }
+                break;
         }
+
+        $response = curl_exec($curl);
+        $info = curl_getinfo($curl);
+
+        if($response == false){
+            throw new \Exception("connection issue");
+        }
+
+        if($info['http_code'] == 401){
+            throw new InvalidAPIKeyException();
+        }else{
+            $output['code'] = $info['http_code'];
+            $output['body'] = json_decode($response);
+        }
+
+        curl_close($curl);
 
         return $output;
     }
 
     public function get(string $path) : array {
-        return $this->request('get',$path);
+        return $this->request('GET',$path);
     }
 
     public function post(string $path,array $params) : array {
-        return $this->request('post',$path, $params);
+        return $this->request('POST',$path, $params);
     }
 
     public function delete(string $path,array $params = null) : array {
-        return $this->request('delete',$path, $params);
+        return $this->request('DELETE',$path, $params);
     }
 
 }

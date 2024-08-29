@@ -4,7 +4,12 @@ namespace SingleWallet\Models\Response;
 
 class NetworkResponse {
 
-    public function __construct(protected string $code, protected string $name){
+    protected $code;
+    protected $name;
+
+    public function __construct(string $code, string $name){
+        $this->name = $name;
+        $this->code = $code;
     }
 
     public function getCode(): string{

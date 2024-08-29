@@ -3,21 +3,53 @@
 namespace SingleWallet\Models\Response;
 
 class NewInvoiceResponse {
-    public function __construct(protected $id,
-    protected $url,
-    protected $orderName,
-    protected $orderNumber,
-    protected $description,
-    protected $amount,
-    protected $customerEmail,
-    protected $payload,
-    protected $callbackUrl,
-    protected $redirectUrl,
-    protected $cancelUrl,
-    protected $language,
-    protected $createdAt,
-    protected $expireAt,
-    protected $wallets){}
+    protected $id;
+    protected $url;
+    protected $orderName;
+    protected $orderNumber;
+    protected $description;
+    protected $amount;
+    protected $customerEmail;
+    protected $payload;
+    protected $callbackUrl;
+    protected $redirectUrl;
+    protected $cancelUrl;
+    protected $language;
+    protected $createdAt;
+    protected $expireAt;
+    protected $wallets;
+
+    public function __construct($id,
+                                $url,
+                                $orderName,
+                                $orderNumber,
+                                $description,
+                                $amount,
+                                $customerEmail,
+                                $payload,
+                                $callbackUrl,
+                                $redirectUrl,
+                                $cancelUrl,
+                                $language,
+                                $createdAt,
+                                $expireAt,
+                                $wallets){
+        $this->wallets = $wallets;
+        $this->expireAt = $expireAt;
+        $this->createdAt = $createdAt;
+        $this->language = $language;
+        $this->cancelUrl = $cancelUrl;
+        $this->redirectUrl = $redirectUrl;
+        $this->callbackUrl = $callbackUrl;
+        $this->payload = $payload;
+        $this->customerEmail = $customerEmail;
+        $this->amount = $amount;
+        $this->description = $description;
+        $this->orderNumber = $orderNumber;
+        $this->orderName = $orderName;
+        $this->url = $url;
+        $this->id = $id;
+    }
 
     public function getUrl(): string{
         return $this->url;
