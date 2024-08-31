@@ -12,8 +12,13 @@ class InvoiceResponse {
     protected $description;
     protected $invoiceAmount;
     protected $paidAmount;
+    protected $currencyCode;
+    protected $fiatInvoiceAmount;
+    protected $fiatPaidAmount;
+    protected $exchangeRate;
     protected $customerEmail;
     protected $status;
+
     protected $exception;
     protected $payload;
     protected $callbackUrl;
@@ -35,6 +40,10 @@ class InvoiceResponse {
                                 $description,
                                 $invoiceAmount,
                                 $paidAmount,
+                                $currencyCode,
+                                $fiatInvoiceAmount,
+                                $fiatPaidAmount,
+                                $exchangeRate,
                                 $customerEmail,
                                 $status,
                                 $exception,
@@ -66,6 +75,10 @@ class InvoiceResponse {
         $this->status = $status;
         $this->customerEmail = $customerEmail;
         $this->paidAmount = $paidAmount;
+        $this->currencyCode = $currencyCode;
+        $this->fiatInvoiceAmount = $fiatInvoiceAmount;
+        $this->fiatPaidAmount = $fiatPaidAmount;
+        $this->exchangeRate = $exchangeRate;
         $this->invoiceAmount = $invoiceAmount;
         $this->description = $description;
         $this->orderNumber = $orderNumber;
@@ -249,5 +262,21 @@ class InvoiceResponse {
     public function getExpireAt()
     {
         return $this->expireAt;
+    }
+
+    public function getCurrencyCode(){
+        return $this->currencyCode;
+    }
+
+    public function getFiatInvoiceAmount(){
+        return $this->fiatInvoiceAmount;
+    }
+
+    public function getFiatPaidAmount(){
+        return $this->fiatPaidAmount;
+    }
+
+    public function getExchangeRate(){
+        return $this->exchangeRate;
     }
 }

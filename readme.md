@@ -34,6 +34,7 @@ $invoiceRequest = (new Invoice())
     ->setOrderNumber("#54321") // optional, default = null
     ->setDescription("Order Description") // optional, default = null
     ->setAmount(5) // required, min=3
+    ->setCurrencyCode('GBP') // optional, default = USD
     ->setLanguage('en') // optional, default = en
     ->setTtl(15) // optional, default = 15, min = 15, max = 10080
     ->setCallbackUrl("https://website.com/callback") // optional, default is project callback url
@@ -85,4 +86,5 @@ $singlewallet->getTransaction(string $id) : TransactionResponse; // Get transact
 $singlewallet->createInvoice(Invoice $invoice) : NewInvoiceResponse;
 $singlewallet->cancelInvoice(string $invoiceId) : boolean; // Cancel invoice
 $singlewallet->getInvoice(string $invoiceId) : InvoiceResponse; // Get invoice details
+$singlewallet->getFiatCurrencies() : FiatCurrenciesResponse[]; // Get fiat currencies list
 ```

@@ -7,6 +7,7 @@ class Invoice {
     private $orderNumber;
     private $description;
     private $amount;
+    private $currencyCode;
     private $customerEmail;
     private $ttl;
     private $payload;
@@ -183,6 +184,21 @@ class Invoice {
     public function setLanguage($language): Invoice
     {
         $this->language = $language;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCurrencyCode(){
+        return $this->currencyCode;
+    }
+
+    /**
+     * @param mixed $currencyCode
+     */
+    public function setCurrencyCode($currencyCode): Invoice {
+        $this->currencyCode = $currencyCode;
         return $this;
     }
 }

@@ -6,7 +6,7 @@ namespace SingleWallet;
 use SingleWallet\Exceptions\InvalidAPIKeyException;
 
 class HttpRequest {
-    const VERSION = '1.2.0';
+    const VERSION = '1.3.0';
 
     protected $headers;
     protected $timeout = 5;

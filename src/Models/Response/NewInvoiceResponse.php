@@ -9,6 +9,9 @@ class NewInvoiceResponse {
     protected $orderNumber;
     protected $description;
     protected $amount;
+    protected $currencyCode;
+    protected $fiatAmount;
+    protected $exchangeRate;
     protected $customerEmail;
     protected $payload;
     protected $callbackUrl;
@@ -25,6 +28,9 @@ class NewInvoiceResponse {
                                 $orderNumber,
                                 $description,
                                 $amount,
+                                $currencyCode,
+                                $fiatAmount,
+                                $exchangeRate,
                                 $customerEmail,
                                 $payload,
                                 $callbackUrl,
@@ -44,6 +50,9 @@ class NewInvoiceResponse {
         $this->payload = $payload;
         $this->customerEmail = $customerEmail;
         $this->amount = $amount;
+        $this->currencyCode = $currencyCode;
+        $this->fiatAmount = $fiatAmount;
+        $this->exchangeRate = $exchangeRate;
         $this->description = $description;
         $this->orderNumber = $orderNumber;
         $this->orderName = $orderName;
@@ -106,5 +115,17 @@ class NewInvoiceResponse {
 
     public function getWallets(): array{
         return $this->wallets;
+    }
+
+    public function getCurrencyCode(){
+        return $this->currencyCode;
+    }
+
+    public function getFiatAmount(){
+        return $this->fiatAmount;
+    }
+
+    public function getExchangeRate(){
+        return $this->exchangeRate;
     }
 }

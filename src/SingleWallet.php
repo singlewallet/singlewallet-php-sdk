@@ -12,6 +12,7 @@ use SingleWallet\Exceptions\WithdrawException;
 use SingleWallet\Models\Request\Invoice;
 use SingleWallet\Models\Response\AccountInformationResponse;
 use SingleWallet\Models\Response\CreateWalletResponse;
+use SingleWallet\Models\Response\FiatCurrenciesResponse;
 use SingleWallet\Models\Response\InvoiceResponse;
 use SingleWallet\Models\Response\NewInvoiceResponse;
 use SingleWallet\Models\Response\NetworkResponse;
@@ -85,6 +86,19 @@ class SingleWallet {
         return array_map(function($network){
             return new NetworkResponse($network->code, $network->name);
         },$response['body']->data->networks);
+    }
+
+    /**
+     * Get list of all supported fiat currencies
+     *
+     * @return FiatCurrenciesResponse[]
+     */
+    public function getFiatCurrencies() : array {
+        $response = $this->request->get('fiat-currencies');
+
+        return array_map(function($currency){
+            return new FiatCurrenciesResponse($currency->code, $currency->name, $currency->rate);
+        },$response['body']->data->currencies);
     }
 
     /**
@@ -239,6 +253,7 @@ class SingleWallet {
             'order_number'=>$invoice->getOrderNumber(),
             'description'=>$invoice->getDescription(),
             'amount'=>$invoice->getAmount(),
+            'currency_code'=>$invoice->getCurrencyCode(),
             'customer_email'=>$invoice->getCustomerEmail(),
             'ttl'=>$invoice->getTtl(),
             'payload'=>$invoice->getPayload(),
@@ -256,6 +271,9 @@ class SingleWallet {
                 $invoice->order_number,
                 $invoice->description,
                 $invoice->invoice_amount,
+                $invoice->currency_code,
+                $invoice->fiat_invoice_amount,
+                $invoice->exchange_rate,
                 $invoice->customer_email,
                 $invoice->payload,
                 $invoice->callback_url,
@@ -307,6 +325,10 @@ class SingleWallet {
                 $invoice->description,
                 $invoice->invoice_amount,
                 $invoice->paid_amount,
+                $invoice->currency_code,
+                $invoice->fiat_invoice_amount,
+                $invoice->fiat_paid_amount,
+                $invoice->exchange_rate,
                 $invoice->customer_email,
                 $invoice->status,
                 $invoice->exception,
