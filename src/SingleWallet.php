@@ -14,6 +14,7 @@ use SingleWallet\Models\Response\AccountInformationResponse;
 use SingleWallet\Models\Response\CreateWalletResponse;
 use SingleWallet\Models\Response\FiatCurrenciesResponse;
 use SingleWallet\Models\Response\InvoiceResponse;
+use SingleWallet\Models\Response\LanguageResponse;
 use SingleWallet\Models\Response\NewInvoiceResponse;
 use SingleWallet\Models\Response\NetworkResponse;
 use SingleWallet\Models\Response\TransactionResponse;
@@ -86,6 +87,21 @@ class SingleWallet {
         return array_map(function($network){
             return new NetworkResponse($network->code, $network->name);
         },$response['body']->data->networks);
+    }
+
+    /**
+     * Get list of all supported languages
+     *
+     * @return NetworkResponse[]
+     */
+    public function getLanguageList() : array {
+        $response = $this->request->get('languages');
+
+        var_dump($response['body']);
+
+        return array_map(function($language){
+            return new LanguageResponse($language->code, $language->name);
+        },$response['body']->data->languages);
     }
 
     /**
