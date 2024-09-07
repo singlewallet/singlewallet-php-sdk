@@ -87,4 +87,5 @@ $singlewallet->createInvoice(Invoice $invoice) : NewInvoiceResponse;
 $singlewallet->cancelInvoice(string $invoiceId) : boolean; // Cancel invoice
 $singlewallet->getInvoice(string $invoiceId) : InvoiceResponse; // Get invoice details
 $singlewallet->getFiatCurrencies() : FiatCurrenciesResponse[]; // Get fiat currencies list
+$singlewallet->getLanguageList() : LanguageResponse[]; // Get supported languages list
 ```
