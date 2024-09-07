@@ -97,8 +97,6 @@ class SingleWallet {
     public function getLanguageList() : array {
         $response = $this->request->get('languages');
 
-        var_dump($response['body']);
-
         return array_map(function($language){
             return new LanguageResponse($language->code, $language->name);
         },$response['body']->data->languages);
