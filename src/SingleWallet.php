@@ -92,7 +92,7 @@ class SingleWallet {
     /**
      * Get list of all supported languages
      *
-     * @return NetworkResponse[]
+     * @return LanguageResponse[]
      */
     public function getLanguageList() : array {
         $response = $this->request->get('languages');

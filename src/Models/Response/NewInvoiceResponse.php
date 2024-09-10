@@ -60,6 +60,10 @@ class NewInvoiceResponse {
         $this->id = $id;
     }
 
+    public function getId(){
+        return $this->id;
+    }
+
     public function getUrl(): string{
         return $this->url;
     }
