@@ -182,7 +182,7 @@ class SingleWallet {
             'network_code'=>$networkCode,
             'address'=>$address,
             'amount'=>$amount,
-            'request'=>$requestId,
+            'request_id'=>$requestId,
         ]);
 
         if($response['code'] == 200){
