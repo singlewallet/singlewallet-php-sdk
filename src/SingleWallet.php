@@ -177,7 +177,7 @@ class SingleWallet {
      * @return WithdrawResponse
      * @throws WithdrawException
      */
-    public function withdraw(string $networkCode, string $address, float $amount, string $requestId) : WithdrawResponse {
+    public function withdraw(string $networkCode, string $address, float $amount, string $requestId=null) : WithdrawResponse {
         $response = $this->request->post('withdraw',[
             'network_code'=>$networkCode,
             'address'=>$address,
