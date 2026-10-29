@@ -173,14 +173,16 @@ class SingleWallet {
      * @param string $networkCode
      * @param string $address receiver wallet address
      * @param float $amount
+     * @param string $requestId a unique id to prevent request idempotency
      * @return WithdrawResponse
      * @throws WithdrawException
      */
-    public function withdraw(string $networkCode, string $address, float $amount) : WithdrawResponse {
+    public function withdraw(string $networkCode, string $address, float $amount, string $requestId) : WithdrawResponse {
         $response = $this->request->post('withdraw',[
             'network_code'=>$networkCode,
             'address'=>$address,
             'amount'=>$amount,
+            'request'=>$requestId,
         ]);
 
         if($response['code'] == 200){
